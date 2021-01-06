@@ -1,44 +1,63 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="utf-8">
-<!-- スマホで見やすくする設定 -->
-<meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="utf-8">
+  <!-- スマホで見やすくする設定 -->
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
 <!-- ブラウザのタブに表示されるタイトル -->
 <title>お絵描き</title>
 </head>
  
 <body>
 <canvas id='canvas' width='300' height='400'></canvas>  <!-- 絵を描くcanvas要素 -->
-<input  id="color" type="color" value="#000000">        <!-- 色選択ダイアログ -->
 
 <script>
 
 var touching = false;                                   // タッチ中か否かを入れる変数
-var startX   = 0;                                       // タッチ開始位置のX座標
-var startY   = 0;                                       // タッチ開始位置のY座標
+var motionData = [];
+var startX  = 100;                                        // 開始位置のX座標
+var startY  = 100;                                        // 開始位置のY座標
+var endX  = 100;                                          // 終了位置のX座標
+var endY  = 100;                                          // 終了位置のY座標
 var penColor = "#000000";                               // 線の色（#RRGGBB）
 var penWidth = 5;                                       // 線の幅
- 
+
 // canvas要素に描画するためのお決まりの2行
 var canvas  = document.getElementById("canvas");        // canvas 要素の取得
 var context = canvas.getContext("2d");                  // 描画用部品を取得
- 
+
+if( window.DeviceMotionEvent ){ 
+    window.addEventListener( "devicemotion", deviceMotion ); 
+} 
+
+function deviceMotion( e ){ 
+  e.preventDefault(); 
+  if( touching ){ 
+    // 重力加速度を除いた加速度
+    var ac = e.acceleration; 
+    
+    var motion = {}; 
+    motion['ac'] = ac; 
+
+    motionData.push( motion ); 
+  } 
+}
+
 // タッチ開始イベントが起きたら
 canvas.addEventListener("touchstart", (e) => {
     touching = true;                                    // タッチ中にする
-    // タッチ開始時の指の座標（開始座標）を得る
-    startX = e.touches[0].pageX - canvas.offsetLeft;    // X座標
-    startY = e.touches[0].pageY - canvas.offsetTop;     // Y座標
+    motionData = [];
 });
  
-// タッチしたまま指が動いたら
-canvas.addEventListener("touchmove", (e) => {
-    e.preventDefault();                                 // 画面をスクロールさせない
-    if(touching == true) {                              // タッチ中なら
-        // 動いた後の指の座標（終了座標）を得る
-        var endX = e.touches[0].pageX - canvas.offsetLeft;  // X座標
-        var endY = e.touches[0].pageY - canvas.offsetTop;   // Y座標
+// タッチ終了イベントが起きたら
+canvas.addEventListener("touchend", (e) => {
+    touching = false;
+    if( motionData && motionData.length > 0 ){
+      for( var i = 0; i < motionData.length; i ++ ){ 
+        var mot = motionData[i]; 
+        endX = endX + mot['ac'].x;
+        endY = endY + mot['ac'].y;
         // 描画スタイルの設定
         context.strokeStyle = penColor;                 // 線の色
         context.lineWidth = penWidth;                   // 線の幅
@@ -51,18 +70,8 @@ canvas.addEventListener("touchmove", (e) => {
         // 今の終了座標を次の開始座標にする
         startX = endX;
         startY = endY;
+      } 
     }
-});
- 
-// タッチ終了イベントが起きたら
-canvas.addEventListener("touchend", (e) => {
-    touching = false;
-});
-
-// 色の選択
-var color = document.getElementById("color");           // 色選択用の input 要素の取得
-color.addEventListener("change", () => {                // 色選択ダイアログで選択色が変わったら
-    penColor = color.value;                             // penColor を色選択ダイアログの選択色にする
 });
 
 </script>
