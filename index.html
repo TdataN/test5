@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
 <!-- ブラウザのタブに表示されるタイトル -->
-<title>お絵描き</title>
+<title>文字認識</title>
 </head>
  
 <body>
@@ -81,11 +81,14 @@ function chgImg()
   document.getElementById("newImg").src = png;
 }
 
+
 </script>
 
 <form>
 <input type="button" value="画像に変換" onclick="chgImg()">
 </form>
+
+<div><img id="newImg"></div>
 
 </body>
 </html>
