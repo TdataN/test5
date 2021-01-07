@@ -74,18 +74,7 @@ canvas.addEventListener("touchend", (e) => {
     }
 });
 
-//canvasデータを画像に変換にする関数
-function chgImg()
-{
-  var png = cvs.toDataURL();
-  document.getElementById("newImg").src = png;
-}
-
 </script>
-
-<form>
-<input type="button" value="画像に変換" onclick="chgImg()">
-</form>
 
 </body>
 </html>
