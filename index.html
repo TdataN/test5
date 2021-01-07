@@ -10,7 +10,7 @@
 </head>
  
 <body>
-<canvas id='canvas' width='300' height='400'></canvas>  <!-- 絵を描くcanvas要素 -->
+<canvas id='canvas' width='300' height='300'></canvas>  <!-- 絵を描くcanvas要素 -->
 
 <script>
 
@@ -56,8 +56,8 @@ canvas.addEventListener("touchend", (e) => {
     if( motionData && motionData.length > 0 ){
       for( var i = 0; i < motionData.length; i ++ ){ 
         var mot = motionData[i]; 
-        endX = endX + mot['ac'].x;
-        endY = endY + mot['ac'].y;
+        endX = endX + (mot['ac'].x * 1.2);
+        endY = endY + (mot['ac'].y * 1.2);
         // 描画スタイルの設定
         context.strokeStyle = penColor;                 // 線の色
         context.lineWidth = penWidth;                   // 線の幅
