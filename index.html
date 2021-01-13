@@ -84,7 +84,7 @@ canvas.addEventListener("touchend", (e) => {
         oldAccelY = mot['ac'].y;
 
         // 変位計算Y(速度を台形積分する)
-        differenceY = ((speedY + oldSpeedY) * 0.2) / 2 + differenceY;
+        differenceY = -(((speedY + oldSpeedY) * 0.2) / 2 + differenceY);
         oldSpeedY = speedY;
 
         // 描画スタイルの設定
