@@ -72,19 +72,19 @@ canvas.addEventListener("touchend", (e) => {
         //endY = endY + (mot['ac'].y * 1.2);
 
        // 速度計算X(加速度を台形積分する)
-        speedX = ((mot['ac'].x + oldAccelX) * 1) / 2 + speedX;
+        speedX = ((mot['ac'].x + oldAccelX) * 0.5) / 2 + speedX;
         oldAccelX = mot['ac'].x;
 
         // 変位計算X(速度を台形積分する)
-        differenceX = ((speedX + oldSpeedX) * 1) / 2 + differenceX;
+        differenceX = ((speedX + oldSpeedX) * 0.5) / 2 + differenceX;
         oldSpeedX = speedX;
 
        // 速度計算Y(加速度を台形積分する)
-        speedY = ((mot['ac'].y + oldAccelY) * 1) / 2 + speedY;
+        speedY = ((mot['ac'].y + oldAccelY) * 0.5) / 2 + speedY;
         oldAccelY = mot['ac'].y;
 
         // 変位計算Y(速度を台形積分する)
-        differenceY = ((speedY + oldSpeedY) * 1) / 2 + differenceY;
+        differenceY = ((speedY + oldSpeedY) * 0.5) / 2 + differenceY;
         oldSpeedY = speedY;
 
         // 描画スタイルの設定
