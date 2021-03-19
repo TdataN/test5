@@ -60,7 +60,7 @@ canvas.addEventListener("touchend", (e) => {
         var mot = motionData[i]; 
         // 前回の終了座標に加速度データを加算（表示補正でx1.2倍）
         endX = endX + (mot['ac'].x * 1.2);
-        endY = endY + (mot['ac'].y * 1.2);
+        endY = endY + (-mot['ac'].y * 1.2);
 
         // 描画スタイルの設定
         context.strokeStyle = "#000000";                // 線の色（#RRGGBB）
@@ -95,7 +95,7 @@ function chgImg()
 </form>
 
 <!-- 反映確認用number -->
-4
+1
 
 <!-- 画像を表示 -->
 <div><img id="newImg"></div>
