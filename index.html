@@ -58,27 +58,22 @@ canvas.addEventListener("touchend", (e) => {
     touching = false;
     if( motionData && motionData.length > 0 ){
       for( var i = 0; i < motionData.length; i ++ ){ 
-        var mot = motionData[i];
-        
-        var txt = document.getElementByID("txt");
-        txt.innerHTML = "x:" + mot['ac'].x + "<br>"
-        txt.innerHTML = "y:" + mot['ac'].y + "<br>"
-        
-        // 前回の終了座標に加速度データを加算
-        //endX = endX + (mot['ac'].x);
-        //endY = endY + (mot['ac'].y);
+        var mot = motionData[i]; 
+        // 前回の終了座標に加速度データを加算（表示補正でx1.2倍）
+        endX = endX + (mot['ac'].x * 1.2);
+        endY = endY + (mot['ac'].y * 1.2);
         // 描画スタイルの設定
-        //context.strokeStyle = penColor;                 // 線の色
-        //context.lineWidth = penWidth;                   // 線の幅
-        //context.lineCap = "round";                      // 線の端を丸める
+        context.strokeStyle = penColor;                 // 線の色
+        context.lineWidth = penWidth;                   // 線の幅
+        context.lineCap = "round";                      // 線の端を丸める
         // 開始座標から終了座標に向かって線を引く
-        //context.beginPath();                            // 描画開始
-        //context.moveTo(startX, startY);                 // 開始座標から
-        //context.lineTo(endX, endY);                     // 終了座標に向けて
-        //context.stroke();                               // 線を引く
+        context.beginPath();                            // 描画開始
+        context.moveTo(startX, startY);                 // 開始座標から
+        context.lineTo(endX, endY);                     // 終了座標に向けて
+        context.stroke();                               // 線を引く
         // 今の終了座標を次の開始座標にする
-        //startX = endX;
-        //startY = endY;
+        startX = endX;
+        startY = endY;
       } 
     }
 });
@@ -96,6 +91,10 @@ function chgImg()
 <!-- 画像に変換ボタンを配置 -->
 <input type="button" value="画像に変換" onclick="chgImg()">
 </form>
+
+<!-- 反映確認用number -->
+1
+
 
 <!-- 画像を表示 -->
 <div><img id="newImg"></div>
